@@ -261,7 +261,7 @@ libs$genes       <- colSums(genes > 0)
 
 Here, we observe a strong difference beween the runs.
 
-```{r}
+```{r heatmapCluster}
 NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
 ```
 
@@ -269,7 +269,7 @@ NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs
 
 Obviously, we detect more genes if there were multiple cells...
 
-```{r 150603_M00528_0127_000000000-AD05V.gene-count, dev=c('svg', 'png'), fig.height=2.5}
+```{r geneCount, fig.height=2.5}
 dotsize <- 50
 ggplot(libs, aes(x=Error, y=genes)) +
   stat_summary(fun.y=mean, fun.ymin=mean, fun.ymax=mean, geom="crossbar", color="gray") +
@@ -279,7 +279,7 @@ ggplot(libs, aes(x=Error, y=genes)) +
 
 ### Gene counts per C1 run.
 
-```{r}
+```{r geneBoxplot}
 boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detexted (aprox)", main="Comparison of gene detection by run.")
 t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ```

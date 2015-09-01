@@ -306,7 +306,7 @@ Here, we observe a strong difference beween the runs.
 NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
 ```
 
-![](QC_files/figure-html/unnamed-chunk-10-1.png) 
+![](QC_files/figure-html/heatmapCluster-1.png) 
 
 ### Gene count by error code.
 
@@ -321,7 +321,7 @@ ggplot(libs, aes(x=Error, y=genes)) +
   coord_flip() + facet_wrap(~Run) + theme_bw()
 ```
 
-![](QC_files/figure-html/150603_M00528_0127_000000000-AD05V.gene-count-1.svg) 
+![](QC_files/figure-html/geneCount-1.png) 
 
 ### Gene counts per C1 run.
 
@@ -330,7 +330,7 @@ ggplot(libs, aes(x=Error, y=genes)) +
 boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detexted (aprox)", main="Comparison of gene detection by run.")
 ```
 
-![](QC_files/figure-html/unnamed-chunk-11-1.png) 
+![](QC_files/figure-html/geneBoxplot-1.png) 
 
 ```r
 t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
