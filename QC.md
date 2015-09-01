@@ -1,8 +1,8 @@
 
 
 
-Sample C1 CAGE libraries comparing PrimeScript to SuperScript III.
-==================================================================
+Sample C1 CAGE libraries comparing PrimeScript to SuperScript III
+=================================================================
 
 This is a preview of the C1 CAGE technology.  We made two C1 runs differing by
 the RT enzyme used: PrimeScript or SuperScript III, and sequenced them in
@@ -13,11 +13,11 @@ A proper enzyme benchmark needs replicates, but this is out of the scope of
 this document.__
 
 To quickly assess the performance of C1 CAGE (standard condition: SuperScript III),
-can follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run.)
-and [gene discovery curves](#rarefaction-hanabi-plot.).
+can follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run)
+and [gene discovery curves](#rarefaction-hanabi-plot).
 
-Metadata.
----------
+Metadata
+--------
 
 
 ```r
@@ -34,8 +34,8 @@ IDs.  The position of the positive controls (wells C01 and
 C03 and negative controls (wells D01 and
 H09) in the 96-well plate is also indicated.
 
-Annotation and gene symbols.
-----------------------------
+Annotation and gene symbols
+---------------------------
 
 This [knitr](http://yihui.name/knitr/) file a few shell commands before
 starting the annalysis in `R`, to:
@@ -73,8 +73,8 @@ osc2bed output/level1.osc.gz | tee level1.bed | bed2annot - > level1.annot
 bed2symbols level1.bed > level1.genes
 ```
 
-`R` packages needed in this analysis.
--------------------------------------
+`R` packages needed in this analysis
+------------------------------------
 
 We use `oscR` to load expression data in a `data.table`, `smallCAGEqc` for a
 lot of ad-hoc functions needed in our projects, `magrittr` for the `%>%` pipe
@@ -94,8 +94,8 @@ library(ggplot2)
 library(vegan)
 ```
 
-Per-sample metadata table in `R`.
----------------------------------
+Per-sample metadata table in `R`
+--------------------------------
 
 Here, we store the sample metadata in a table called `libs`, where rows
 represent single cell libraries (hence the name), and columns are a source
@@ -112,7 +112,7 @@ instance, the line below indicates that cell A01 from run A had 5,855 counts:
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
 ```
 
-### Cell picture QC.
+### Cell picture QC
 
 Cell pictures were taken on a Cellomics platform and curated as described in our
 [Cell-Cycle-on-C1](https://github.com/Population-Transcriptomics/Cell-Cycle-on-C1/blob/master/fluorescence/Fluorescence-measured-in-ImageJ.md)
@@ -153,7 +153,7 @@ abline(v=deadThresh, col="red")
 libs[libs$mean_ch3 - libs$bg_mean_ch3 > deadThresh, "Error"] <- "6-Dead"
 ```
 
-### Positive and negative controls.
+### Positive and negative controls
 
 Some samples with errors were repalced by the positive and negative controls.
 The following commands update the `libs` table to reflect this.
@@ -168,7 +168,7 @@ libs[libs$Well == ctrls$RunA$nega & libs$Run == RunA, "Comment"] <- "Negative co
 libs[libs$Well == ctrls$RunB$nega & libs$Run == RunB, "Comment"] <- "Negative control"
 ```
 
-### cDNA concentration.
+### cDNA concentration
 
 Excel templates provided by Fluidigm were used for fluorometric measurement of cDNA
 yield with the PicoGreen dye, and are parsed with the following commands.  A histogram
@@ -230,7 +230,7 @@ libs <- cbind(libs, t(rowsum(l1,  annot.l1[,'class']))[rownames(libs),])
 libs$group <- libs$Error
 ```
 
-#### Annotation statistics for each run, grouped by error codes from the image QC.
+#### Annotation statistics for each run, grouped by error codes from the image QC
 
 Roughly 10 % only of the reads align to ribosomal RNA.  A large number of reads are
 PCR duplicates (here in the category _mapped_) in the sense that they have the same
@@ -262,7 +262,7 @@ plotAnnot(libs[libs$Run==RunB,], 'all', RunB)
 
 ![](QC_files/figure-html/plotAnnotSSIII-1.png) 
 
-#### Annotation of transcript counts, per run. 
+#### Annotation of transcript counts, per run
 
 In proportion of unique molecule counts, the number of counts for promoter
 regions is larger than 50 %.
@@ -308,7 +308,7 @@ NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs
 
 ![](QC_files/figure-html/heatmapCluster-1.png) 
 
-### Gene count by error code.
+### Gene count by error code
 
 Obviously, we detect more genes if there were multiple cells...
 
@@ -323,7 +323,7 @@ ggplot(libs, aes(x=Error, y=genes)) +
 
 ![](QC_files/figure-html/geneCount-1.png) 
 
-### Gene counts per C1 run.
+### Gene counts per C1 run
 
 
 ```r
@@ -355,7 +355,7 @@ But could it be explained by sampling depth ?  Or would the trend be
 reversed if we would sequence more ?  We answer this question by plotting
 how many genes are discovrered as the number of reads per sample increases.
 
-### Rarefaction (hanabi plot).
+### Rarefaction (hanabi plot)
 
 Since we count unique transcripts with the _unique molecular identifiers_ in C1 CAGE's
 template-switching oligonucleotides, here we study the increase of gene discovery per
