@@ -19,7 +19,7 @@ After installing make sure to generate an index of the reference genome you need
 tagdust
 -------
 
-    wget http://sourceforge.net/projects/tagdust/files/tagdust-2.13.tar.gz/download
+    wget http://sourceforge.net/projects/tagdust/files/tagdust-2.13.tar.gz
     tar xzf tagdust-2.13.tar.gz
     cd tagdust-2.13
     ./configure
@@ -29,7 +29,7 @@ samtools
 --------
 
     wget http://downloads.sourceforge.net/project/samtools/samtools/1.2/samtools-1.2.tar.bz2
-    tar xzf samtools-1.2.tar.bz2
+    tar xjf samtools-1.2.tar.bz2
     cd samtools-1.2
     make install
 
