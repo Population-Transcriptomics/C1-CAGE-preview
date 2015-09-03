@@ -4,7 +4,7 @@ Prerequisites
 Here is a list of software to install and where to download them.
 
 In the tutorial section we assume that the software are available from the command-line so you have 
-to make you set you PATH correctly.
+to make sure that your PATH is set correctly.
 
 BWA
 ---
