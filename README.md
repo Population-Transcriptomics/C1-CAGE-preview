@@ -11,3 +11,8 @@ You will find in this repository:
  - An [iPython notebook](OP-WORKFLOW-CAGEscan-short-reads-v2.0.ipynb) showing how we processed a pair of C1 runs.
  - An example of [quality control and prelimnary assessment](QC.md) of the aligned data.
  - The [license](LICENSE), CC0, under which we release the source code here.
+
+Authors:
+
+ - Mickaël Mendez <<mickael.mendez@riken.jp>>
+ - Charles Plessy <<plessy@riken.jp>>
