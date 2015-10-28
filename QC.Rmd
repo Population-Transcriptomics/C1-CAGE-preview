@@ -116,7 +116,9 @@ instance, the line below indicates that cell A01 from run A had 5,855 counts:
     transcript_count  RunA_A01  5855
 
 ```{r}
+setwd("output")
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
+setwd("..")
 ```
 
 ### Cell picture QC
