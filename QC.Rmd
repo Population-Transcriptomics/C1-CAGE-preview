@@ -24,7 +24,7 @@ A proper enzyme benchmark needs replicates, but this is out of the scope of
 this document.__
 
 To quickly assess the performance of C1 CAGE (standard condition: SuperScript III),
-can follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run)
+follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run)
 and [gene discovery curves](#rarefaction-hanabi-plot).
 
 Metadata
@@ -47,10 +47,10 @@ IDs.  The position of the positive controls (wells `r ctrls$RunA$posi` and
 Annotation and gene symbols
 ---------------------------
 
-This [knitr](http://yihui.name/knitr/) file a few shell commands before
+This [knitr](http://yihui.name/knitr/) file runs a few shell commands before
 starting the annalysis in `R`, to:
 
- - convert the _level1_ [OSC Table](http://sourceforge.net/projects/osctf/)
+ - convert the single-base-resolution ("_level1_"") [OSC Table](http://sourceforge.net/projects/osctf/)
    to BED format,
    
  - intersect this data to a BED file containing annotations (_promoters_,
@@ -78,7 +78,7 @@ function bed2symbols {
     bedtools groupby -g 1 -c 2 -o distinct
 }
 
-osc2bed output/level1.osc.gz | tee level1.bed | bed2annot - > level1.annot
+osc2bed output/mylevel1file.l1.osc.gz | tee level1.bed | bed2annot - > level1.annot
 bed2symbols level1.bed > level1.genes
 ```
 
@@ -200,7 +200,7 @@ After loading, let's count the number of detected TSS per sample, and
 store the result in the `libs` table.
 
 ```{r}
-l1 <- fread.osc("output/level1.osc.gz", dropIdCoords=TRUE)
+l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
 setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.))
 libs$l1 <- colSums(l1 > 0)
 ```
