@@ -48,7 +48,7 @@ Annotation and gene symbols
 ---------------------------
 
 This [knitr](http://yihui.name/knitr/) file runs a few shell commands before
-starting the annalysis in `R`, to:
+starting the analysis in `R`, to:
 
  - convert the single-base-resolution ("_level1_"") [OSC Table](http://sourceforge.net/projects/osctf/)
    to BED format,
@@ -110,7 +110,7 @@ represent single cell libraries (hence the name), and columns are a source
 of metadata like error codes, number of extracted reads, gene count, etc.
 
 The `libs` table is constructed from a processing summary file where each
-line is a tabulation-sparated triple giving metadata for one sample.  For
+line is a tabulation-separated triple giving metadata for one sample.  For
 instance, the line below indicates that cell A01 from run A had 5,855 counts:
 
     transcript_count  RunA_A01  5855
@@ -141,9 +141,9 @@ libs$Error <- factor( libs$Error
                     , levels=c("0-No Error", "1-No cell", "2-Debris", "3-OutOfFocus", "4-MultipleCells", "5-Control", "6-Dead"))
 ```
 
-A hardocoded treshold of 2.5 is used to identify dead cells.  The histogram
+A hardcoded threshold of 2.5 is used to identify dead cells.  The histogram
 below is to check if this value makes sense in this dataset.  Cells above
-the treshhold are flagged _dead_.
+the threshold are flagged _dead_.
 
 ```{r dead-cells, fig.height=2.5}
 hist( libs$mean_ch3 - libs$bg_mean_ch3
@@ -158,7 +158,7 @@ libs[libs$mean_ch3 - libs$bg_mean_ch3 > deadThresh, "Error"] <- "6-Dead"
 
 ### Positive and negative controls
 
-Some samples with errors were repalced by the positive and negative controls.
+Some samples with errors were replaced by the positive and negative controls.
 The following commands update the `libs` table to reflect this.
 
 ```{r flag-controls}
@@ -201,7 +201,7 @@ store the result in the `libs` table.
 
 ```{r}
 l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
-setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.))
+setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.) %>% sub("_R1", "", .))
 libs$l1 <- colSums(l1 > 0)
 ```
 
@@ -221,7 +221,7 @@ libs$group <- libs$Error
 
 Roughly 10 % only of the reads align to ribosomal RNA.  A large number of reads are
 PCR duplicates (here in the category _mapped_) in the sense that they have the same
-transcription start site and unique molecular identifier.  These PCR duplictes are
+transcription start site and unique molecular identifier.  These PCR duplicates are
 not lost as they are used for paired-end assembly of _CAGEscan fragments_ where each
 independent tagmentation event reconstitutes the original cDNA sequence.
 
@@ -256,12 +256,12 @@ rownames(genesymbols) <- genesymbols$cluster
 
 genes <- rowsum(l1, genesymbols$symbol)
 
-libs$genes       <- colSums(genes > 0)
+libs$genes <- countSymbols(genes)
 ```
 
 ### Correlation between runs
 
-Here, we observe a strong difference beween the runs.
+Here, we observe a strong difference between the runs.
 
 ```{r heatmapCluster}
 NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
@@ -282,14 +282,14 @@ ggplot(libs, aes(x=Error, y=genes)) +
 ### Gene counts per C1 run
 
 ```{r geneBoxplot}
-boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detexted (aprox)", main="Comparison of gene detection by run.")
+boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detected (aprox)", main="Comparison of gene detection by run.")
 t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ```
 
 The number of genes detected in `r RunA` is significantly lower than in `r RunB`.
 But could it be explained by sampling depth ?  Or would the trend be
 reversed if we would sequence more ?  We answer this question by plotting
-how many genes are discovrered as the number of reads per sample increases.
+how many genes are discovered as the number of reads per sample increases.
 
 ### Rarefaction (hanabi plot)
 
@@ -312,7 +312,7 @@ s <- sort(unique(round(c( cs
 tg <- t(genes)
 
 # Rarefy at each sampling point.  It takes time !
-# In the resluting tables, the columns are a subsampling size, and
+# In the resulting tables, the columns are a subsampling size, and
 # the rows are a cell.
 
 rarg <- sapply(s, function(X) rarefy(tg, X))
