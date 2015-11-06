@@ -30,7 +30,7 @@ Create output folders
 Start by creating all the folders where the output of each software will
 be stored with mkdir.
 
-    mkdir tagdust_r1 unzip_r2 extracted_reads cleaned_reads sai sampe sam_to_bam sam_sort properly_paired cagescan_pairs cagescan_frags level1
+    mkdir tagdust_r1 unzip_r2 extracted_reads cleaned_reads sai sampe genome_mapped properly_paired cagescan_pairs cagescan_frags level1
 
 Extract UMIs
 ------------
@@ -75,20 +75,18 @@ selected genome with [BWA](https://github.com/lh3/bwa) sampe  using standard par
     bwa sampe -a 2000000 -c 0.00001 ./hg19_female.fa sai/100_S100_L001_R1_001.sai sai/100_S100_L001_R2_001.sai cleaned_reads/100_S100_L001_READ1.fq cleaned_reads/100_S100_L001_READ2.fq > sampe/100_S100_L001.sam
 
 The alignments are converted to BAM format and sorted by coordinates
-using [samtools](https://github.com/samtools/samtools/releases/latest). The result is the "genome mapped" reads. :
+using [samtools](https://github.com/samtools/samtools/releases/latest). The result is the "genome mapped" reads:
 
-    samtools view -bSo  sam_to_bam/100_S100_L001.bam sampe/100_S100_L001.sam
-
-    samtools sort -n sam_to_bam/100_S100_L001.bam sam_sort/100_S100_L001
+    samtools view -uSo - sampe/100_S100_L001.sam | samtools sort - genome_mapped/100_S100_L001
 
 CAGEscan fragments
 ------------------
 
 Using samtools, the "genome mapped" reads are filtered by removing
-non-properly paired reads [4] and non-primary alignments. The result is
-the "properly paired" reads. :
+non-properly paired reads [4] and non-primary alignments, and then sorted by
+name. The result is the "properly paired" reads:
 
-    samtools view -f 0x0002 -F 0x0100 -bo properly_paired/100_S100_L001.bam sam_sort/100_S100_L001.bam
+    samtools view -f 0x0002 -F 0x0100 -uo - genome_mapped/100_S100_L001.bam | samtools sort -n - properly_paired/100_S100_L001
 
 The "properly paired" reads are then converted to BED12 format with the
 program [pairedBamToBed12] (https://github.com/Population-Transcriptomics/pairedBamToBed12). These are the "CAGEscan pairs". :
