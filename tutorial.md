@@ -109,7 +109,7 @@ version 2015.02.12 or greater (for UMI support), after filtering out CAGEscan re
 the flag `0x40`. Reads that have both the same TSS and UMI count for one
 transcript.
 
-    python ./PromoterPipeline_20150516/level1.py -o level1/mylevel1file.l1.osc.gz -f 0x40 --fingerprint sam_sort/100_S100_L001.bam
+    python ./PromoterPipeline_20150516/level1.py -o level1/mylevel1file.l1.osc.gz -f 0x0042 -F 0x0104 --fingerprint genome_mapped/100_S100_L001.bam
 
 This data has single nucleotide resolution, and can be converted
 in to a promoter expression table with the "level2" command of the
