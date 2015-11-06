@@ -108,13 +108,15 @@ An expression table of transcript counts is prepared with the "properly
 paired" reads using the "level1" command of the 
 [PromoterPipeline] (http://genome.gsc.riken.jp/plessy-20150516/PromoterPipeline_20150516.tar.gz)
 version 2015.02.12 or greater (for UMI support), after filtering out CAGEscan reads with
-the flag 0x40. Reads that have both the same TSS and UMI count for one
-transcript. This data has single nucleotide resolution, and is converted
-in to a promoter expression table with the "level2" command of the
-PromoterPipeline, by distance based clustering with a default distance
-of 20 between TSS. :
+the flag `0x40`. Reads that have both the same TSS and UMI count for one
+transcript.
 
     python ./PromoterPipeline_20150516/level1.py -o level1/mylevel1file.l1.osc.gz -f 0x40 --fingerprint sam_sort/100_S100_L001.bam
+
+This data has single nucleotide resolution, and can be converted
+in to a promoter expression table with the "level2" command of the
+PromoterPipeline, by distance based clustering with a default distance
+of 20 between TSS.
 
 References/Notes
 ----------------
