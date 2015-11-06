@@ -107,7 +107,7 @@ level1
 An expression table of transcript counts is prepared with the "properly
 paired" reads using the "level1" command of the 
 [PromoterPipeline] (http://genome.gsc.riken.jp/plessy-20150516/PromoterPipeline_20150516.tar.gz)
-version 2015.02.12 or greater, after filtering out CAGEscan reads with
+version 2015.02.12 or greater (for UMI support), after filtering out CAGEscan reads with
 the flag 0x40. Reads that have both the same TSS and UMI count for one
 transcript. This data has single nucleotide resolution, and is converted
 in to a promoter expression table with the "level2" command of the
