@@ -116,7 +116,8 @@ transcript.
 This data has single nucleotide resolution, and can be converted
 in to a promoter expression table with the "level2" command of the
 PromoterPipeline, by distance based clustering with a default distance
-of 20 between TSS.
+of 20 between TSS.  Note that the input must be sorted, otherwise, the
+PromoterPipeline scripts will produce incorrect data.
 
 References/Notes
 ----------------
