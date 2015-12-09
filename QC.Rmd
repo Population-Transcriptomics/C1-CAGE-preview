@@ -15,9 +15,11 @@ knitr::opts_knit$set(verbose = TRUE)
 Sample C1 CAGE libraries comparing PrimeScript to SuperScript III
 =================================================================
 
-This is a preview of the C1 CAGE technology.  We made two C1 runs differing by
-the RT enzyme used: PrimeScript or SuperScript III, and sequenced them in
+This is a preview of the [C1 CAGE][] technology.  We made two C1 runs differing
+by the RT enzyme used: PrimeScript or SuperScript III, and sequenced them in
 multiplex on a MiSeq v2 kit.
+
+[C1 CAGE]: https://www.fluidigm.com/c1openapp/scripthub/script/2015-07/c1-cage-1436761405138-3
 
 __Warning: this is unpublished results to show what C1 CAGE libraries look like.
 A proper enzyme benchmark needs replicates, but this is out of the scope of
