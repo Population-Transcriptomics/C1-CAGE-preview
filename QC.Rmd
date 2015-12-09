@@ -43,7 +43,7 @@ ctrls   <- list( RunA=list(posi="C01", nega="D01")
 `LIBRARY` indicates the MiSeq run ID (`r LIBRARY`), `RunA` and `B` indicate
 the C1 array serial numbers (`r RunA` and `r RunB`), and are used as C1 run
 IDs.  The position of the positive controls (wells `r ctrls$RunA$posi` and
-`r ctrls$RunB$posi` and negative controls (wells `r ctrls$RunA$nega` and
+`r ctrls$RunB$posi`) and negative controls (wells `r ctrls$RunA$nega` and
 `r ctrls$RunB$nega`) in the 96-well plate is also indicated.
 
 Annotation and gene symbols
