@@ -4,16 +4,18 @@
 Sample C1 CAGE libraries comparing PrimeScript to SuperScript III
 =================================================================
 
-This is a preview of the C1 CAGE technology.  We made two C1 runs differing by
-the RT enzyme used: PrimeScript or SuperScript III, and sequenced them in
+This is a preview of the [C1 CAGE][] technology.  We made two C1 runs differing
+by the RT enzyme used: PrimeScript or SuperScript III, and sequenced them in
 multiplex on a MiSeq v2 kit.
+
+[C1 CAGE]: https://www.fluidigm.com/c1openapp/scripthub/script/2015-07/c1-cage-1436761405138-3
 
 __Warning: this is unpublished results to show what C1 CAGE libraries look like.
 A proper enzyme benchmark needs replicates, but this is out of the scope of
 this document.__
 
 To quickly assess the performance of C1 CAGE (standard condition: SuperScript III),
-can follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run)
+follow the links for the [promoter rate](#annotation-of-transcript-counts-per-run)
 and [gene discovery curves](#rarefaction-hanabi-plot).
 
 Metadata
@@ -31,16 +33,16 @@ ctrls   <- list( RunA=list(posi="C01", nega="D01")
 `LIBRARY` indicates the MiSeq run ID (150519_M00528_0125_000000000-ACUAB), `RunA` and `B` indicate
 the C1 array serial numbers (1772-066-262 and 1772-066-263), and are used as C1 run
 IDs.  The position of the positive controls (wells C01 and
-C03 and negative controls (wells D01 and
+C03) and negative controls (wells D01 and
 H09) in the 96-well plate is also indicated.
 
 Annotation and gene symbols
 ---------------------------
 
-This [knitr](http://yihui.name/knitr/) file a few shell commands before
-starting the annalysis in `R`, to:
+This [knitr](http://yihui.name/knitr/) file runs a few shell commands before
+starting the analysis in `R`, to:
 
- - convert the _level1_ [OSC Table](http://sourceforge.net/projects/osctf/)
+ - convert the single-base-resolution ("_level1_"") [OSC Table](http://sourceforge.net/projects/osctf/)
    to BED format,
    
  - intersect this data to a BED file containing annotations (_promoters_,
@@ -69,7 +71,7 @@ function bed2symbols {
     bedtools groupby -g 1 -c 2 -o distinct
 }
 
-osc2bed output/level1.osc.gz | tee level1.bed | bed2annot - > level1.annot
+osc2bed output/mylevel1file.l1.osc.gz | tee level1.bed | bed2annot - > level1.annot
 bed2symbols level1.bed > level1.genes
 ```
 
@@ -102,14 +104,16 @@ represent single cell libraries (hence the name), and columns are a source
 of metadata like error codes, number of extracted reads, gene count, etc.
 
 The `libs` table is constructed from a processing summary file where each
-line is a tabulation-sparated triple giving metadata for one sample.  For
+line is a tabulation-separated triple giving metadata for one sample.  For
 instance, the line below indicates that cell A01 from run A had 5,855 counts:
 
     transcript_count  RunA_A01  5855
 
 
 ```r
+setwd("output")
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
+setwd("..")
 ```
 
 ### Cell picture QC
@@ -133,9 +137,9 @@ libs$Error <- factor( libs$Error
                     , levels=c("0-No Error", "1-No cell", "2-Debris", "3-OutOfFocus", "4-MultipleCells", "5-Control", "6-Dead"))
 ```
 
-A hardocoded treshold of 2.5 is used to identify dead cells.  The histogram
+A hardcoded threshold of 2.5 is used to identify dead cells.  The histogram
 below is to check if this value makes sense in this dataset.  Cells above
-the treshhold are flagged _dead_.
+the threshold are flagged _dead_.
 
 
 ```r
@@ -155,7 +159,7 @@ libs[libs$mean_ch3 - libs$bg_mean_ch3 > deadThresh, "Error"] <- "6-Dead"
 
 ### Positive and negative controls
 
-Some samples with errors were repalced by the positive and negative controls.
+Some samples with errors were replaced by the positive and negative controls.
 The following commands update the `libs` table to reflect this.
 
 
@@ -202,18 +206,21 @@ store the result in the `libs` table.
 
 
 ```r
-l1 <- fread.osc("output/level1.osc.gz", dropIdCoords=TRUE)
+l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
 ```
 
 ```
 ## 
-Read 0.0% of 115186 rows
-Read 52.1% of 115186 rows
-Read 115186 rows and 390 (of 390) columns from 0.173 GB file in 00:00:05
+Read 0.0% of 197514 rows
+Read 20.3% of 197514 rows
+Read 40.5% of 197514 rows
+Read 60.8% of 197514 rows
+Read 81.0% of 197514 rows
+Read 197514 rows and 389 (of 389) columns from 0.646 GB file in 00:00:11
 ```
 
 ```r
-setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.))
+setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.) %>% sub("_R1", "", .))
 libs$l1 <- colSums(l1 > 0)
 ```
 
@@ -234,7 +241,7 @@ libs$group <- libs$Error
 
 Roughly 10 % only of the reads align to ribosomal RNA.  A large number of reads are
 PCR duplicates (here in the category _mapped_) in the sense that they have the same
-transcription start site and unique molecular identifier.  These PCR duplictes are
+transcription start site and unique molecular identifier.  These PCR duplicates are
 not lost as they are used for paired-end assembly of _CAGEscan fragments_ where each
 independent tagmentation event reconstitutes the original cDNA sequence.
 
@@ -294,12 +301,12 @@ rownames(genesymbols) <- genesymbols$cluster
 
 genes <- rowsum(l1, genesymbols$symbol)
 
-libs$genes       <- colSums(genes > 0)
+libs$genes <- countSymbols(genes)
 ```
 
 ### Correlation between runs
 
-Here, we observe a strong difference beween the runs.
+Here, we observe a strong difference between the runs.
 
 
 ```r
@@ -327,7 +334,7 @@ ggplot(libs, aes(x=Error, y=genes)) +
 
 
 ```r
-boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detexted (aprox)", main="Comparison of gene detection by run.")
+boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detected (aprox)", main="Comparison of gene detection by run.")
 ```
 
 ![](QC_files/figure-html/geneBoxplot-1.png) 
@@ -341,19 +348,19 @@ t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  genes by Run
-## t = -20.5803, df = 64.705, p-value < 2.2e-16
+## t = -20.4868, df = 65.03, p-value < 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -942.7897 -775.9838
+##  -972.4664 -799.7093
 ## sample estimates:
 ## mean in group 1772-066-262 mean in group 1772-066-263 
-##                   390.2429                  1249.6296
+##                   403.1714                  1289.2593
 ```
 
 The number of genes detected in 1772-066-262 is significantly lower than in 1772-066-263.
 But could it be explained by sampling depth ?  Or would the trend be
 reversed if we would sequence more ?  We answer this question by plotting
-how many genes are discovrered as the number of reads per sample increases.
+how many genes are discovered as the number of reads per sample increases.
 
 ### Rarefaction (hanabi plot)
 
@@ -377,7 +384,7 @@ s <- sort(unique(round(c( cs
 tg <- t(genes)
 
 # Rarefy at each sampling point.  It takes time !
-# In the resluting tables, the columns are a subsampling size, and
+# In the resulting tables, the columns are a subsampling size, and
 # the rows are a cell.
 
 rarg <- sapply(s, function(X) rarefy(tg, X))
@@ -406,4 +413,3 @@ shell commands by hand), to better study how the data is processed in this examp
 We use a comparison of two reverse-transcriptases as
 an supporting example, but a final conclusion on this particular question
 requires analysis of replicates, which is out of the scope here.
-
