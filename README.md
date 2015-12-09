@@ -12,6 +12,13 @@ You will find in this repository:
  - An example of [quality control and prelimnary assessment](QC.md) of the aligned data.
  - The [license](LICENSE), CC0, under which we release the source code here.
 
+The aligned data was uploaded on the [Zenbu][] genome browser, where it can be
+visualised as a quantitative [expression track][].  Here is a [default view][] with GENCODE annotation.
+
+[Zenbu]: http://fantom.gsc.riken.jp/zenbu
+[expression track]: http://fantom.gsc.riken.jp/zenbu/dex/#section=Tracks;collab=BLFNw_m6NRVgdC2XaT2NcB;search=C1%20CAGE%20preview
+[default view]: http://fantom.gsc.riken.jp/zenbu/gLyphs/#config=G6Ybb4JVJxzlFQffod3NhC
+
 Authors:
 
  - Mickaël Mendez <<mickael.mendez@riken.jp>>
