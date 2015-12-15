@@ -62,6 +62,14 @@ Then you can filter the reads with:
 
     tagdust -arch SimpleArchitecture.txt -ref ercc_and_hg38_rRNA.fa -o cleaned_reads/100_S100_L001 extracted_reads/100_S100_L001_R1_001.fq extracted_reads/100_S100_L001_R2_001.fq
 
+The file `ercc_and_hg38_rRNA.fa` contains the sequence of the spikes and the
+human ribosomal RNA locus (GenBank ID U13369.1).  The sequence of the External
+RNA Control Consortium (ERCC) spikes is in the public domain (see NIST's
+[Certificate of Analysis](https://www-s.nist.gov/srmors/view_cert.cfm?srm=2374)
+for [SRM 2374](https://www-s.nist.gov/srmors/view_detail.cfm?srm=2374)) and can
+be [downloaded from NIST](https://www-s.nist.gov/srmors/view_datafiles.cfm?srm=2374).
+
+
 Align paired-end reads
 ----------------------
 
