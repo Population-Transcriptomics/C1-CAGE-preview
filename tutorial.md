@@ -77,7 +77,7 @@ Align paired-end reads
 
 For each sample separately, the reads are aligned paired-end on the
 selected genome with [BWA](https://github.com/lh3/bwa) sampe  using standard parameters, except
-"maximum\_insert\_size" that is set to 2,000,000. :
+"maximum\_insert\_size" that is set to 2,000,000:
 
     bwa aln ./hg19_female.fa cleaned_reads/100_S100_L001_READ1.fq > sai/100_S100_L001_R1_001.sai
     bwa aln ./hg19_female.fa cleaned_reads/100_S100_L001_READ2.fq > sai/100_S100_L001_R2_001.sai
@@ -103,13 +103,13 @@ name. The result is the "properly paired" reads:
     samtools view -f 0x0002 -F 0x0100 -uo - genome_mapped/100_S100_L001.bam | samtools sort -n - properly_paired/100_S100_L001
 
 The "properly paired" reads are then converted to BED12 format with the
-program [pairedBamToBed12] (https://github.com/Population-Transcriptomics/pairedBamToBed12). These are the "CAGEscan pairs". :
+program [pairedBamToBed12] (https://github.com/Population-Transcriptomics/pairedBamToBed12). These are the "CAGEscan pairs":
 
     pairedBamToBed12 -i properly_paired/100_S100_L001.bam > cagescan_pairs/100_S100_L001.bed
 
 The CAGEscan pairs sharing the same TSS and UMI are then aggregated into
 "CAGEscan fragments", with the "umicountFP" script of [umicount] (https://github.com/mmendez12/umicount/).
-The CAGEscan fragments represent single transcript molecules. :
+The CAGEscan fragments represent single transcript molecules:
 
     umicountFP -f cagescan_pairs/100_S100_L001.bed > cagescan_frags/100_S100_L001.bed
 
