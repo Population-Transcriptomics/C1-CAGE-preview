@@ -68,6 +68,8 @@ RNA Control Consortium (ERCC) spikes is in the public domain (see NIST's
 [Certificate of Analysis](https://www-s.nist.gov/srmors/view_cert.cfm?srm=2374)
 for [SRM 2374](https://www-s.nist.gov/srmors/view_detail.cfm?srm=2374)) and can
 be [downloaded from NIST](https://www-s.nist.gov/srmors/view_datafiles.cfm?srm=2374).
+Note that the sequences need to be [corrected](https://www.biostars.org/p/170234/) to
+include their true 5′ end sequence.
 
 
 Align paired-end reads
