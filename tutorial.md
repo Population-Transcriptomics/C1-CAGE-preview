@@ -89,6 +89,10 @@ using [samtools](https://github.com/samtools/samtools/releases/latest). The resu
 
     samtools view -uSo - sampe/100_S100_L001.sam | samtools sort - genome_mapped/100_S100_L001
 
+The resulting BAM file contains all the pairs, including the non-mapped reads and
+the non-proper alignments.  The PCR duplicates are still present as well, and will
+be recognised by the UMI information that was transferred to the read names.
+
 CAGEscan fragments
 ------------------
 
