@@ -4,7 +4,7 @@ Tutorial
 In this tutorial you will learn how to process the sequencing reads of a
 single-cell prepared with the C1-CAGE protocol. It includes the
 extraction of the UMIs and ribosomal RNAs with TagDust2, the alignment
-of the reads to a reference genome with bwa and the quantification of
+of the reads to a reference genome with BWA and the quantification of
 single transcript molecules with umicount and the level1 script.
 
 This tutorial assumes that all the software mentioned in the above
