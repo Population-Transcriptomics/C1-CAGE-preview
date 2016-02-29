@@ -22,7 +22,7 @@ demultiplexed after basecalling.
 
 In the following example we refer to the CAGE and CAGEscan reads as R1
 and R2 (100\_S100\_L001\_R1\_001.fastq.gz and
-100\_S100\_L001\_R2\_001.fastq.gz) respectively
+100\_S100\_L001\_R2\_001.fastq.gz) respectively.
 
 Create output folders
 ---------------------
