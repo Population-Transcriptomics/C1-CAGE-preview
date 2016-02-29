@@ -8,7 +8,7 @@ of the reads to a reference genome with BWA and the quantification of
 single transcript molecules with umicount and the level1 script.
 
 This tutorial assumes that all the software mentioned in the above
-paragraph are already installed on your system and ready tu use from the
+paragraph are already installed on your system and ready to use from the
 command-line. If this is not the case, please refer to the
 'Prerequisite' section.
 
