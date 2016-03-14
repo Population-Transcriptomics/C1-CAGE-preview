@@ -23,3 +23,10 @@ Authors:
 
  - Mickaël Mendez <<mickael.mendez@riken.jp>>
  - Charles Plessy <<plessy@riken.jp>>
+
+_Update on March 2016_: the reference sequence of the ERCC spikes has been
+corrected, see <https://www.biostars.org/p/170234/> for details.  Following
+that correction, we detect more spikes in our libraries, and therefore we
+adjusted our recommended dillution for the RT mixture from 1/200 to 1/20,000.
+An update on [ScriptHub](https://www.fluidigm.com/c1openapp/scripthub) will
+follow.
