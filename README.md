@@ -2,7 +2,7 @@
 
 Our purpose here is to provide a bit of guidance to the users of C1 CAGE on Fluidigm's [Script Hub](https://www.fluidigm.com/c1openapp/scripthub), by showing how we align and inspect the data after sequencing.
 
-We hope that this preview will be useful for you to design your experiments and analyses, but please bear in mind that the data used here is just a test run sequenced on MiSeq.  A proper publication of the method will follow later.
+We hope that this preview will be useful for you to design your experiments and analyses, but please bear in mind that the data used here is just a [test run sequenced on MiSeq](http://dx.doi.org/10.5281/zenodo.48478).  A proper publication of the method will follow later.
 
 ### You will find in this repository:
 
