@@ -28,9 +28,11 @@ tagdust
 samtools
 --------
 
-    wget http://downloads.sourceforge.net/project/samtools/samtools/1.2/samtools-1.2.tar.bz2
-    tar xjf samtools-1.2.tar.bz2
-    cd samtools-1.2
+Version 1.3 or higher is needed, because of a change in the syntax of the `sort` command.
+
+    wget http://downloads.sourceforge.net/project/samtools/samtools/1.3/samtools-1.3.tar.bz2
+    tar xjf samtools-1.3.tar.bz2
+    cd samtools-1.3
     make install
 
 pairedBamToBed12
