@@ -7,9 +7,11 @@ output:
 ---
 
 ```{r echo=FALSE}
-options(width=100)
 knitr::opts_chunk$set(cache  = TRUE)
 knitr::opts_knit$set(verbose = TRUE)
+# knitr::opts_chunk$set(dev=c('svg', 'png'))
+options(width = 100)
+ggplot2::theme_set(ggplot2::theme_bw())
 ```
 
 Sample C1 CAGE libraries comparing PrimeScript to SuperScript III
@@ -32,7 +34,7 @@ and [gene discovery curves](#rarefaction-hanabi-plot).
 Metadata
 --------
 
-```{r}
+```{r library_information}
 LIBRARY <- "150519_M00528_0125_000000000-ACUAB"
 RunA    <- "1772-066-262"
 RunB    <- "1772-066-263"
@@ -60,7 +62,7 @@ starting the analysis in `R`, to:
    
  - intersect with gene symbols using the same method.
 
-```{r engine="bash"}
+```{r annotate_bed, engine="bash"}
 function osc2bed {
   zcat $1 |
     grep -v \# |
@@ -93,13 +95,19 @@ operator, `ggplot2` for figures and `vegan` for subsample analysis.
 
 [oscR](https://github.com/charles-plessy/oscR) and
 [smallCAGEqc](https://github.com/charles-plessy/smallCAGEqc) are available
-from GitHub, see the instructions on their home pages.
+from GitHub, see the instructions on their home pages.  This Rmarkdown file
+is derived from the `nanoCAGE` template distributed in the smallCAGEqc package.
 
-```{r, message=F}
+```{r load_R_libraries, message=F}
 library(oscR)
 library(smallCAGEqc)
+stopifnot(
+    packageVersion("oscR") >= "0.2.0"
+  , packageVersion("smallCAGEqc") > "0.11.2"
+)
 library(data.table)
 library(magrittr)
+library(reshape)
 library(ggplot2)
 library(vegan)
 ```
@@ -117,7 +125,7 @@ instance, the line below indicates that cell A01 from run A had 5,855 counts:
 
     transcript_count  RunA_A01  5855
 
-```{r}
+```{r load_logs}
 setwd("output")
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
 setwd("..")
@@ -133,7 +141,7 @@ in the files [1772-066-262.imageQC.txt](./1772-066-262.imageQC.txt) and
 in `R` and merged in the `libs` table.  The cells were stained with live (channel 2) /
 dead (channel 3) dyes.
 
-```{r}
+```{r load_fluo_data}
 read.fluo <- function(RUN) read.delim( paste0(RUN, ".imageQC.txt")
                                      , row.names="cell_id"
                                      , stringsAsFactors = FALSE)
@@ -164,8 +172,8 @@ Some samples with errors were replaced by the positive and negative controls.
 The following commands update the `libs` table to reflect this.
 
 ```{r flag-controls}
-libs[libs$Well %in% ctrls[["RunA"]] & libs$Run == RunA, "Error"]   <- "5-Control"
-libs[libs$Well %in% ctrls[["RunB"]] & libs$Run == RunB, "Error"]   <- "5-Control"
+libs[libs$Well %in% ctrls[["RunA"]] & libs$Run == RunA, "Error"] <- "5-Control"
+libs[libs$Well %in% ctrls[["RunB"]] & libs$Run == RunB, "Error"] <- "5-Control"
 libs[libs$Well == ctrls$RunA$posi & libs$Run == RunA, "Comment"] <- "Positive control"
 libs[libs$Well == ctrls$RunB$posi & libs$Run == RunB, "Comment"] <- "Positive control"
 libs[libs$Well == ctrls$RunA$nega & libs$Run == RunA, "Comment"] <- "Negative control"
@@ -201,7 +209,7 @@ read as a _data.table_ by the `fread.osc` command of the `oscR` package.
 After loading, let's count the number of detected TSS per sample, and
 store the result in the `libs` table.
 
-```{r}
+```{r load_osc_data}
 l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
 setnames(l1, colnames(l1) %>% sub('raw.', '', .) %>% sub('.None', '', .) %>% sub('RunA',RunA,.) %>% sub('RunB',RunB,.) %>% sub("_R1", "", .))
 libs$l1 <- colSums(l1 > 0)
@@ -212,7 +220,7 @@ libs$l1 <- colSums(l1 > 0)
 Using the files created earlier by the shell commands and the `hierarchAnnot` command,
 annotate the TSS, and add a summary to the `libs` command.
 
-```{r}
+```{r annotate_l1}
 annot.l1 <- read.table("level1.annot", head=F, col.names=c('id', 'feature'), row.names=1)
 annot.l1 <- hierarchAnnot(annot.l1)
 libs <- cbind(libs, t(rowsum(l1,  annot.l1[,'class']))[rownames(libs),])
@@ -226,6 +234,11 @@ PCR duplicates (here in the category _mapped_) in the sense that they have the s
 transcription start site and unique molecular identifier.  These PCR duplicates are
 not lost as they are used for paired-end assembly of _CAGEscan fragments_ where each
 independent tagmentation event reconstitutes the original cDNA sequence.
+
+
+```{r plotAnnotAll, warning=FALSE, fig.height=20}
+plotAnnot(libs, 'all', "All cells", libs$samplename)
+```
 
 ```{r plotAnnotPS, warning=FALSE}
 plotAnnot(libs[libs$Run==RunA,], 'all', RunA)
@@ -252,7 +265,7 @@ Gene counts and expression levels
 Gene expression level is calculated by intersecting the TSS with known genes.
 The number of detected genes per cell is counted and summarised in the `libs` table.
 
-```{r}
+```{r genesymbols_l1}
 genesymbols <- read.table("level1.genes", col.names=c("cluster","symbol"), stringsAsFactors=FALSE)
 rownames(genesymbols) <- genesymbols$cluster
 
@@ -266,10 +279,10 @@ libs$genes <- countSymbols(genes)
 Here, we observe a strong difference between the runs.
 
 ```{r heatmapCluster}
-NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
+NMF::aheatmap(cor(genes[-1 ,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
 ```
 
-### Gene count by error code
+### Gene count by error code and run
 
 Obviously, we detect more genes if there were multiple cells...
 
@@ -278,13 +291,10 @@ dotsize <- 50
 ggplot(libs, aes(x=Error, y=genes)) +
   stat_summary(fun.y=mean, fun.ymin=mean, fun.ymax=mean, geom="crossbar", color="gray") +
   geom_dotplot(aes(fill=Error), binaxis='y', binwidth=1, dotsize=dotsize, stackdir='center') +
-  coord_flip() + facet_wrap(~Run) + theme_bw()
+  coord_flip() + facet_wrap(~Run)
 ```
 
-### Gene counts per C1 run
-
 ```{r geneBoxplot}
-boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detected (aprox)", main="Comparison of gene detection by run.")
 t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ```
 
@@ -295,48 +305,34 @@ how many genes are discovered as the number of reads per sample increases.
 
 ### Rarefaction (hanabi plot)
 
-Since we count unique transcripts with the _unique molecular identifiers_ in C1 CAGE's
-template-switching oligonucleotides, here we study the increase of gene discovery per
-transcript count, instead of per sequence read.
+Since we count unique transcripts with the _unique molecular identifiers_ in C1
+CAGE's template-switching oligonucleotides, here we study the increase of gene
+discovery per transcript count, instead of per sequence read.
 
 ```{r hanabi}
-cs <- colSums(genes)
 
-# Subsampling sizes: one point for each cell's sample size, plus a few
-# points for smaller values, to be able to plot smoothly.
-
-s <- sort(unique(round(c( cs
-                        , max(cs) / 2^(16:0)
-                        , (max(cs) / 16) * 16:1))))
-
-# Cachig the transpositions, just in case it matters for the performance.
-
-tg <- t(genes)
-
-# Rarefy at each sampling point.  It takes time !
-# In the resulting tables, the columns are a subsampling size, and
-# the rows are a cell.
-
-rarg <- sapply(s, function(X) rarefy(tg, X))
-
-hanabiPlot(rarg[libs$Error=="0-No Error",], s, log='', type='l', ylab='number of genes detected', xlab='number of unique molecule counts', main=paste("Gene discovery for", LIBRARY), GROUP=libs[libs$Error=="0-No Error", "Run"])
-
-legend('topleft',legend=levels(libs[libs$Error=="0-No Error", "Run"]), col=1:length(levels(libs[libs$Error=="0-No Error", "Run"])), pch=1)
+hanabiPlot( hanabi( genes[,libs$Error=="0-No Error",]
+                  , from=0)
+          , ylab='number of genes detected'
+          , xlab='number of unique molecule counts'
+          , main='Gene discovery'
+          , GROUP=libs[libs$Error=="0-No Error", "Run"])
 ```
 
-The plots suggest that deeper (HiSeq) sequencing of the `r RunA` library (PrimeScript)
-would not increase much the number of detected genes, which already saturates.  However,
-the libraries made with SuperScript III (`r RunB`) clearly have the potential to deliver
-more information by deep sequencing.
+The plots suggest that deeper (HiSeq) sequencing of the `r RunA` library
+(PrimeScript) would not increase much the number of detected genes, which already
+saturates.  However, the libraries made with SuperScript III (`r RunB`) clearly
+have the potential to deliver more information by deep sequencing.
 
 Conclusion
 ----------
 
-We hope that this document will give you a rough idea on how to pre-process and quality-control
-C1 CAGE data in R.
+We hope that this document will give you a rough idea on how to pre-process and 
+quality-control C1 CAGE data in R.
 
-Using Rstudio, you can run the `R` code piece by piece (but you will have to run the
-shell commands by hand), to better study how the data is processed in this example.
+Using Rstudio, you can run the `R` code piece by piece (but you will have to run
+the shell commands by hand), to better study how the data is processed in this
+example.
 
 We use a comparison of two reverse-transcriptases as
 an supporting example, but a final conclusion on this particular question
