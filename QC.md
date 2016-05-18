@@ -84,14 +84,20 @@ operator, `ggplot2` for figures and `vegan` for subsample analysis.
 
 [oscR](https://github.com/charles-plessy/oscR) and
 [smallCAGEqc](https://github.com/charles-plessy/smallCAGEqc) are available
-from GitHub, see the instructions on their home pages.
+from GitHub, see the instructions on their home pages.  This Rmarkdown file
+is derived from the `nanoCAGE` template distributed in the smallCAGEqc package.
 
 
 ```r
 library(oscR)
 library(smallCAGEqc)
+stopifnot(
+    packageVersion("oscR") >= "0.2.0"
+  , packageVersion("smallCAGEqc") > "0.11.2"
+)
 library(data.table)
 library(magrittr)
+library(reshape)
 library(ggplot2)
 library(vegan)
 ```
@@ -151,7 +157,7 @@ deadThresh <- 2.5
 abline(v=deadThresh, col="red")
 ```
 
-![](QC_files/figure-html/dead-cells-1.png) 
+![](QC_files/figure-html/dead-cells-1.png)
 
 ```r
 libs[libs$mean_ch3 - libs$bg_mean_ch3 > deadThresh, "Error"] <- "6-Dead"
@@ -164,8 +170,8 @@ The following commands update the `libs` table to reflect this.
 
 
 ```r
-libs[libs$Well %in% ctrls[["RunA"]] & libs$Run == RunA, "Error"]   <- "5-Control"
-libs[libs$Well %in% ctrls[["RunB"]] & libs$Run == RunB, "Error"]   <- "5-Control"
+libs[libs$Well %in% ctrls[["RunA"]] & libs$Run == RunA, "Error"] <- "5-Control"
+libs[libs$Well %in% ctrls[["RunB"]] & libs$Run == RunB, "Error"] <- "5-Control"
 libs[libs$Well == ctrls$RunA$posi & libs$Run == RunA, "Comment"] <- "Positive control"
 libs[libs$Well == ctrls$RunB$posi & libs$Run == RunB, "Comment"] <- "Positive control"
 libs[libs$Well == ctrls$RunA$nega & libs$Run == RunA, "Comment"] <- "Negative control"
@@ -189,7 +195,7 @@ libs$Concentration <- c(read.pg(RunA), read.pg(RunB))
 fldgmConcentrationPlot(libs)
 ```
 
-![](QC_files/figure-html/cDNA_concentration-1.png) 
+![](QC_files/figure-html/cDNA_concentration-1.png)
 
 Transcript counts data
 ----------------------
@@ -216,7 +222,7 @@ Read 20.3% of 197514 rows
 Read 40.5% of 197514 rows
 Read 60.8% of 197514 rows
 Read 81.0% of 197514 rows
-Read 197514 rows and 389 (of 389) columns from 0.646 GB file in 00:00:11
+Read 197514 rows and 389 (of 389) columns from 0.646 GB file in 00:00:10
 ```
 
 ```r
@@ -246,28 +252,26 @@ not lost as they are used for paired-end assembly of _CAGEscan fragments_ where 
 independent tagmentation event reconstitutes the original cDNA sequence.
 
 
+
+```r
+plotAnnot(libs, 'all', "All cells", libs$samplename)
+```
+
+![](QC_files/figure-html/plotAnnotAll-1.png)
+
+
 ```r
 plotAnnot(libs[libs$Run==RunA,], 'all', RunA)
 ```
 
-```
-## Using group as id variables
-## Using group as id variables
-```
-
-![](QC_files/figure-html/plotAnnotPS-1.png) 
+![](QC_files/figure-html/plotAnnotPS-1.png)
 
 
 ```r
 plotAnnot(libs[libs$Run==RunB,], 'all', RunB)
 ```
 
-```
-## Using group as id variables
-## Using group as id variables
-```
-
-![](QC_files/figure-html/plotAnnotSSIII-1.png) 
+![](QC_files/figure-html/plotAnnotSSIII-1.png)
 
 #### Annotation of transcript counts, per run
 
@@ -279,12 +283,7 @@ regions is larger than 50 %.
 plotAnnot(libs[libs$Error == "0-No Error",], "counts", 'Transcript counts', libs[libs$Error == "0-No Error", "Run"])
 ```
 
-```
-## Using group as id variables
-## Using group as id variables
-```
-
-![](QC_files/figure-html/plotAnnotCountsRuns-1.png) 
+![](QC_files/figure-html/plotAnnotCountsRuns-1.png)
 
 Gene counts and expression levels
 ---------------------------------
@@ -310,12 +309,20 @@ Here, we observe a strong difference between the runs.
 
 
 ```r
-NMF::aheatmap(cor(genes[,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
+NMF::aheatmap(cor(genes[-1 ,libs$Error == "0-No Error"]), annCol=list(Run=libs[libs$Error == "0-No Error", "Run"]))
 ```
 
-![](QC_files/figure-html/heatmapCluster-1.png) 
+```
+## Warning: replacing previous import by 'ggplot2::arrow' when loading 'NMF'
+```
 
-### Gene count by error code
+```
+## Warning: replacing previous import by 'ggplot2::unit' when loading 'NMF'
+```
+
+![](QC_files/figure-html/heatmapCluster-1.png)
+
+### Gene count by error code and run
 
 Obviously, we detect more genes if there were multiple cells...
 
@@ -325,19 +332,11 @@ dotsize <- 50
 ggplot(libs, aes(x=Error, y=genes)) +
   stat_summary(fun.y=mean, fun.ymin=mean, fun.ymax=mean, geom="crossbar", color="gray") +
   geom_dotplot(aes(fill=Error), binaxis='y', binwidth=1, dotsize=dotsize, stackdir='center') +
-  coord_flip() + facet_wrap(~Run) + theme_bw()
+  coord_flip() + facet_wrap(~Run)
 ```
 
-![](QC_files/figure-html/geneCount-1.png) 
+![](QC_files/figure-html/geneCount-1.png)
 
-### Gene counts per C1 run
-
-
-```r
-boxplot(data=subset(libs, Error == "0-No Error"), genes ~ Run, ylab="Number of genes detected (aprox)", main="Comparison of gene detection by run.")
-```
-
-![](QC_files/figure-html/geneBoxplot-1.png) 
 
 ```r
 t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
@@ -364,51 +363,36 @@ how many genes are discovered as the number of reads per sample increases.
 
 ### Rarefaction (hanabi plot)
 
-Since we count unique transcripts with the _unique molecular identifiers_ in C1 CAGE's
-template-switching oligonucleotides, here we study the increase of gene discovery per
-transcript count, instead of per sequence read.
+Since we count unique transcripts with the _unique molecular identifiers_ in C1
+CAGE's template-switching oligonucleotides, here we study the increase of gene
+discovery per transcript count, instead of per sequence read.
 
 
 ```r
-cs <- colSums(genes)
-
-# Subsampling sizes: one point for each cell's sample size, plus a few
-# points for smaller values, to be able to plot smoothly.
-
-s <- sort(unique(round(c( cs
-                        , max(cs) / 2^(16:0)
-                        , (max(cs) / 16) * 16:1))))
-
-# Cachig the transpositions, just in case it matters for the performance.
-
-tg <- t(genes)
-
-# Rarefy at each sampling point.  It takes time !
-# In the resulting tables, the columns are a subsampling size, and
-# the rows are a cell.
-
-rarg <- sapply(s, function(X) rarefy(tg, X))
-
-hanabiPlot(rarg[libs$Error=="0-No Error",], s, log='', type='l', ylab='number of genes detected', xlab='number of unique molecule counts', main=paste("Gene discovery for", LIBRARY), GROUP=libs[libs$Error=="0-No Error", "Run"])
-
-legend('topleft',legend=levels(libs[libs$Error=="0-No Error", "Run"]), col=1:length(levels(libs[libs$Error=="0-No Error", "Run"])), pch=1)
+hanabiPlot( hanabi( genes[,libs$Error=="0-No Error",]
+                  , from=0)
+          , ylab='number of genes detected'
+          , xlab='number of unique molecule counts'
+          , main='Gene discovery'
+          , GROUP=libs[libs$Error=="0-No Error", "Run"])
 ```
 
-![](QC_files/figure-html/hanabi-1.png) 
+![](QC_files/figure-html/hanabi-1.png)
 
-The plots suggest that deeper (HiSeq) sequencing of the 1772-066-262 library (PrimeScript)
-would not increase much the number of detected genes, which already saturates.  However,
-the libraries made with SuperScript III (1772-066-263) clearly have the potential to deliver
-more information by deep sequencing.
+The plots suggest that deeper (HiSeq) sequencing of the 1772-066-262 library
+(PrimeScript) would not increase much the number of detected genes, which already
+saturates.  However, the libraries made with SuperScript III (1772-066-263) clearly
+have the potential to deliver more information by deep sequencing.
 
 Conclusion
 ----------
 
-We hope that this document will give you a rough idea on how to pre-process and quality-control
-C1 CAGE data in R.
+We hope that this document will give you a rough idea on how to pre-process and 
+quality-control C1 CAGE data in R.
 
-Using Rstudio, you can run the `R` code piece by piece (but you will have to run the
-shell commands by hand), to better study how the data is processed in this example.
+Using Rstudio, you can run the `R` code piece by piece (but you will have to run
+the shell commands by hand), to better study how the data is processed in this
+example.
 
 We use a comparison of two reverse-transcriptases as
 an supporting example, but a final conclusion on this particular question
