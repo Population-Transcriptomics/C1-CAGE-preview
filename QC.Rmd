@@ -129,6 +129,7 @@ instance, the line below indicates that cell A01 from run A had 5,855 counts:
 setwd("output")
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
 setwd("..")
+libs %<>% within(tagdust <- extracted - cleaned - rdna - spikes)
 ```
 
 ### Cell picture QC
@@ -237,15 +238,27 @@ independent tagmentation event reconstitutes the original cDNA sequence.
 
 
 ```{r plotAnnotAll, warning=FALSE, fig.height=20}
-plotAnnot(libs, 'all', "All cells", libs$samplename)
+plotAnnot(libs, 'step', "All cells", libs$samplename)
 ```
 
 ```{r plotAnnotPS, warning=FALSE}
-plotAnnot(libs[libs$Run==RunA,], 'all', RunA)
+plotAnnot(libs[libs$Run==RunA,], 'step', RunA)
 ```
 
 ```{r plotAnnotSSIII, warning=FALSE}
-plotAnnot(libs[libs$Run==RunB,], 'all', RunB)
+plotAnnot(libs[libs$Run==RunB,], 'step', RunB)
+```
+
+```{r plotAnnotQcAll, warning=FALSE, fig.height=20}
+plotAnnot(libs, 'qc', "All cells", libs$samplename)
+```
+
+```{r plotAnnotQcPS, warning=FALSE}
+plotAnnot(libs[libs$Run==RunA,], 'qc', RunA)
+```
+
+```{r plotAnnotQcSSIII, warning=FALSE}
+plotAnnot(libs[libs$Run==RunB,], 'qc', RunB)
 ```
 
 #### Annotation of transcript counts, per run
@@ -310,7 +323,6 @@ CAGE's template-switching oligonucleotides, here we study the increase of gene
 discovery per transcript count, instead of per sequence read.
 
 ```{r hanabi}
-
 hanabiPlot( hanabi( genes[,libs$Error=="0-No Error",]
                   , from=0)
           , ylab='number of genes detected'

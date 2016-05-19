@@ -120,6 +120,7 @@ instance, the line below indicates that cell A01 from run A had 5,855 counts:
 setwd("output")
 libs <- loadLogs('logs') %>% llPostProcess('nano-fluidigm')
 setwd("..")
+libs %<>% within(tagdust <- extracted - cleaned - rdna - spikes)
 ```
 
 ### Cell picture QC
@@ -217,12 +218,13 @@ l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
 
 ```
 ## 
-Read 0.0% of 197514 rows
-Read 20.3% of 197514 rows
-Read 40.5% of 197514 rows
-Read 60.8% of 197514 rows
-Read 81.0% of 197514 rows
-Read 197514 rows and 389 (of 389) columns from 0.646 GB file in 00:00:10
+Read 0.0% of 197323 rows
+Read 20.3% of 197323 rows
+Read 35.5% of 197323 rows
+Read 55.7% of 197323 rows
+Read 76.0% of 197323 rows
+Read 96.3% of 197323 rows
+Read 197323 rows and 389 (of 389) columns from 0.645 GB file in 00:00:12
 ```
 
 ```r
@@ -254,24 +256,45 @@ independent tagmentation event reconstitutes the original cDNA sequence.
 
 
 ```r
-plotAnnot(libs, 'all', "All cells", libs$samplename)
+plotAnnot(libs, 'step', "All cells", libs$samplename)
 ```
 
 ![](QC_files/figure-html/plotAnnotAll-1.png)
 
 
 ```r
-plotAnnot(libs[libs$Run==RunA,], 'all', RunA)
+plotAnnot(libs[libs$Run==RunA,], 'step', RunA)
 ```
 
 ![](QC_files/figure-html/plotAnnotPS-1.png)
 
 
 ```r
-plotAnnot(libs[libs$Run==RunB,], 'all', RunB)
+plotAnnot(libs[libs$Run==RunB,], 'step', RunB)
 ```
 
 ![](QC_files/figure-html/plotAnnotSSIII-1.png)
+
+
+```r
+plotAnnot(libs, 'qc', "All cells", libs$samplename)
+```
+
+![](QC_files/figure-html/plotAnnotQcAll-1.png)
+
+
+```r
+plotAnnot(libs[libs$Run==RunA,], 'qc', RunA)
+```
+
+![](QC_files/figure-html/plotAnnotQcPS-1.png)
+
+
+```r
+plotAnnot(libs[libs$Run==RunB,], 'qc', RunB)
+```
+
+![](QC_files/figure-html/plotAnnotQcSSIII-1.png)
 
 #### Annotation of transcript counts, per run
 
@@ -347,13 +370,13 @@ t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  genes by Run
-## t = -20.4868, df = 65.03, p-value < 2.2e-16
+## t = -20.4885, df = 65.078, p-value < 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -972.4664 -799.7093
+##  -973.0660 -800.2176
 ## sample estimates:
 ## mean in group 1772-066-262 mean in group 1772-066-263 
-##                   403.1714                  1289.2593
+##                   401.7286                  1288.3704
 ```
 
 The number of genes detected in 1772-066-262 is significantly lower than in 1772-066-263.
