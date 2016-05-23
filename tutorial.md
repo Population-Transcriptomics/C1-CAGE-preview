@@ -60,16 +60,27 @@ You can generate this file with the following command:
 
 Then you can filter the reads with:
 
-    tagdust -arch SimpleArchitecture.txt -ref ercc_and_hg38_rRNA.fa -o cleaned_reads/100_S100_L001 extracted_reads/100_S100_L001_R1_001.fq extracted_reads/100_S100_L001_R2_001.fq
+    tagdust -arch SimpleArchitecture.txt -ref ercc_and_human_rRNA_and_tagdust.fa -o cleaned_reads/100_S100_L001 extracted_reads/100_S100_L001_R1_001.fq extracted_reads/100_S100_L001_R2_001.fq
 
-The file `ercc_and_hg38_rRNA.fa` contains the sequence of the spikes and the
-human ribosomal RNA locus (GenBank ID U13369.1).  The sequence of the External
-RNA Control Consortium (ERCC) spikes is in the public domain (see NIST's
-[Certificate of Analysis](https://www-s.nist.gov/srmors/view_cert.cfm?srm=2374)
-for [SRM 2374](https://www-s.nist.gov/srmors/view_detail.cfm?srm=2374)) and can
-be [downloaded from NIST](https://www-s.nist.gov/srmors/view_datafiles.cfm?srm=2374).
-Note that the sequences need to be [corrected](https://www.biostars.org/p/170234/) to
-include their true 5′ end sequence.
+The file `ercc_and_hg38_rRNA_and_tagdust.fa` contains the sequences of:
+
+ - the human ribosomal RNA locus (GenBank ID U13369.1)
+
+ - the External RNA Control Consortium (ERCC) spikes which are in the public domain (see NIST's
+   [Certificate of Analysis](https://www-s.nist.gov/srmors/view_cert.cfm?srm=2374)
+   for [SRM 2374](https://www-s.nist.gov/srmors/view_detail.cfm?srm=2374)) and can
+   be [downloaded from NIST](https://www-s.nist.gov/srmors/view_datafiles.cfm?srm=2374).
+   Note that the sequences have been [corrected](https://www.biostars.org/p/170234/) to
+   include their true 5′ end sequence.
+
+ - nanoCAGE linkers and of Nextera sequencing linkers.  As per Illumina's [ Illumina Adapter
+   Sequences Document](http://support.illumina.com/downloads/illumina-customer-sequence-letter.html),
+   here is the copyright notice for the sequences that have a name starting with "Nextera".
+
+  > Oligonucleotide sequences © 2016 Illumina, Inc. All rights reserved.
+  > Derivative works created by Illumina customers are authorized for use with
+  > Illumina instruments and products only. All other uses are strictly
+  > prohibited.
 
 
 Align paired-end reads
