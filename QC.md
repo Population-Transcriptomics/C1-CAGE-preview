@@ -218,13 +218,12 @@ l1 <- fread.osc("output/mylevel1file.l1.osc.gz", dropIdCoords=TRUE)
 
 ```
 ## 
-Read 0.0% of 197323 rows
-Read 20.3% of 197323 rows
-Read 35.5% of 197323 rows
-Read 55.7% of 197323 rows
-Read 76.0% of 197323 rows
-Read 96.3% of 197323 rows
-Read 197323 rows and 389 (of 389) columns from 0.645 GB file in 00:00:12
+Read 0.0% of 197317 rows
+Read 20.3% of 197317 rows
+Read 40.5% of 197317 rows
+Read 60.8% of 197317 rows
+Read 81.1% of 197317 rows
+Read 197317 rows and 389 (of 389) columns from 0.645 GB file in 00:00:11
 ```
 
 ```r
@@ -370,13 +369,13 @@ t.test(data=subset(libs, Error == "0-No Error"), genes ~ Run)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  genes by Run
-## t = -20.4885, df = 65.078, p-value < 2.2e-16
+## t = -20.4901, df = 65.096, p-value < 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -973.0660 -800.2176
+##  -973.0292 -800.2004
 ## sample estimates:
 ## mean in group 1772-066-262 mean in group 1772-066-263 
-##                   401.7286                  1288.3704
+##                    401.700                   1288.315
 ```
 
 The number of genes detected in 1772-066-262 is significantly lower than in 1772-066-263.

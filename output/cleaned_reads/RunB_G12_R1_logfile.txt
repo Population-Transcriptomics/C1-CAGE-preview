@@ -1,0 +1,88 @@
+[2016-05-25 15:59:56]	Tagdust 2.13, Copyright (C) 2013 Timo Lassmann <timolassmann@gmail.com>
+[2016-05-25 15:59:56]	cmd: tagdust -arch SimpleArchitecture.txt -ref ercc_and_human_rRNA_and_tagdust.fa -o output/cleaned_reads/RunB_G12_R1 output/extracted_r1/RunB_G12_R1.fq output/extracted_r2/RunB_G12_R1.fq 
+[2016-05-25 15:59:56]	Start Run
+--------------------------------------------------
+[2016-05-25 15:59:56]	Running in paired end mode.
+[2016-05-25 15:59:56]	Looking at file:output/extracted_r1/RunB_G12_R1.fq
+[2016-05-25 15:59:56]	Searching for best architecture in file 'SimpleArchitecture.txt'
+[2016-05-25 15:59:56]	Using: -1 R:N 
+[2016-05-25 15:59:56]	Confidence: 1.00
+[2016-05-25 15:59:56]	Looking at file:output/extracted_r2/RunB_G12_R1.fq
+[2016-05-25 15:59:56]	Searching for best architecture in file 'SimpleArchitecture.txt'
+[2016-05-25 15:59:56]	Using: -1 R:N 
+[2016-05-25 15:59:56]	Confidence: 1.00
+[2016-05-25 15:59:56]	Determining threshold for read1.
+[2016-05-25 16:00:00]	Long sequence found. Need to realloc model...
+[2016-05-25 16:00:01]	Selected Threshold:: 3.106889
+[2016-05-25 16:00:01]	Determining threshold for read2.
+[2016-05-25 16:00:04]	Long sequence found. Need to realloc model...
+[2016-05-25 16:00:05]	Selected Threshold:: 3.115788
+[2016-05-25 16:00:05]	Detected casava 1.8 format.
+[2016-05-25 16:00:14]	Done.
+
+[2016-05-25 16:00:14]	output/extracted_r1/RunB_G12_R1.fq	Input file name 1.
+[2016-05-25 16:00:14]	output/extracted_r2/RunB_G12_R1.fq	Input file name 2.
+[2016-05-25 16:00:14]	42193	total input reads
+[2016-05-25 16:00:14]	3.12	selected threshold
+[2016-05-25 16:00:14]	9742	successfully extracted
+[2016-05-25 16:00:14]	23.1%	extracted
+[2016-05-25 16:00:14]	0	problems with architecture
+[2016-05-25 16:00:14]	0	barcode / UMI not found
+[2016-05-25 16:00:14]	0	too short
+[2016-05-25 16:00:14]	0	low complexity
+[2016-05-25 16:00:14]	32451	match artifacts:
+[2016-05-25 16:00:14]	5428	ERCC-00002
+[2016-05-25 16:00:14]	386	ERCC-00003
+[2016-05-25 16:00:14]	951	ERCC-00004
+[2016-05-25 16:00:14]	131	ERCC-00009
+[2016-05-25 16:00:14]	18	ERCC-00014
+[2016-05-25 16:00:14]	259	ERCC-00022
+[2016-05-25 16:00:14]	43	ERCC-00025
+[2016-05-25 16:00:14]	80	ERCC-00035
+[2016-05-25 16:00:14]	5	ERCC-00041
+[2016-05-25 16:00:14]	77	ERCC-00042
+[2016-05-25 16:00:14]	157	ERCC-00043
+[2016-05-25 16:00:14]	1128	ERCC-00044
+[2016-05-25 16:00:14]	921	ERCC-00046
+[2016-05-25 16:00:14]	8	ERCC-00053
+[2016-05-25 16:00:14]	22	ERCC-00060
+[2016-05-25 16:00:14]	11	ERCC-00062
+[2016-05-25 16:00:14]	5	ERCC-00069
+[2016-05-25 16:00:14]	3513	ERCC-00074
+[2016-05-25 16:00:14]	7	ERCC-00076
+[2016-05-25 16:00:14]	25	ERCC-00078
+[2016-05-25 16:00:14]	7	ERCC-00079
+[2016-05-25 16:00:14]	3	ERCC-00081
+[2016-05-25 16:00:14]	1	ERCC-00084
+[2016-05-25 16:00:14]	4	ERCC-00085
+[2016-05-25 16:00:14]	1	ERCC-00086
+[2016-05-25 16:00:14]	876	ERCC-00092
+[2016-05-25 16:00:14]	55	ERCC-00095
+[2016-05-25 16:00:14]	4132	ERCC-00096
+[2016-05-25 16:00:14]	15	ERCC-00099
+[2016-05-25 16:00:14]	515	ERCC-00108
+[2016-05-25 16:00:14]	50	ERCC-00111
+[2016-05-25 16:00:14]	46	ERCC-00112
+[2016-05-25 16:00:14]	1566	ERCC-00113
+[2016-05-25 16:00:14]	315	ERCC-00116
+[2016-05-25 16:00:14]	5	ERCC-00126
+[2016-05-25 16:00:14]	7149	ERCC-00130
+[2016-05-25 16:00:14]	33	ERCC-00131
+[2016-05-25 16:00:14]	344	ERCC-00136
+[2016-05-25 16:00:14]	5	ERCC-00144
+[2016-05-25 16:00:14]	111	ERCC-00145
+[2016-05-25 16:00:14]	30	ERCC-00154
+[2016-05-25 16:00:14]	5	ERCC-00157
+[2016-05-25 16:00:14]	6	ERCC-00160
+[2016-05-25 16:00:14]	11	ERCC-00162
+[2016-05-25 16:00:14]	22	ERCC-00165
+[2016-05-25 16:00:14]	12	ERCC-00170
+[2016-05-25 16:00:14]	1540	ERCC-00171
+[2016-05-25 16:00:14]	1	080418_Consensus_Vector_Sequence_NIST_SEQUENCING_ASSEMBLY_noRestrict_rev
+[2016-05-25 16:00:14]	2272	gi|555853|gb|U13369.1|HSU13369_Human_ribosomal_DNA_complete_repeating_unit
+[2016-05-25 16:00:14]	11	Nextera_501
+[2016-05-25 16:00:14]	1	Nextera_505
+[2016-05-25 16:00:14]	126	Nextera_701
+[2016-05-25 16:00:14]	1	Nextera_501_Reversed:
+[2016-05-25 16:00:14]	5	Nextera_701_Reversed:
+

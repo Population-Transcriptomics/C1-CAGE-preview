@@ -5,7 +5,7 @@ rdna	RunA_A04	5300
 rdna	RunA_A05	3370
 rdna	RunA_A06	2490
 rdna	RunA_A07	4392
-rdna	RunA_A08	5747
+rdna	RunA_A08	5746
 rdna	RunA_A09	3469
 rdna	RunA_A10	5950
 rdna	RunA_A11	5239
@@ -35,7 +35,7 @@ rdna	RunA_C10	2526
 rdna	RunA_C11	4184
 rdna	RunA_C12	1663
 rdna	RunA_D01	68
-rdna	RunA_D02	5806
+rdna	RunA_D02	5805
 rdna	RunA_D03	5329
 rdna	RunA_D04	4145
 rdna	RunA_D05	5238
@@ -47,7 +47,7 @@ rdna	RunA_D10	4258
 rdna	RunA_D11	1848
 rdna	RunA_D12	1577
 rdna	RunA_E01	5065
-rdna	RunA_E02	6211
+rdna	RunA_E02	6212
 rdna	RunA_E03	7448
 rdna	RunA_E04	2299
 rdna	RunA_E05	5777
@@ -168,7 +168,7 @@ rdna	RunB_F11	4728
 rdna	RunB_F12	3162
 rdna	RunB_G01	2998
 rdna	RunB_G02	3714
-rdna	RunB_G03	2615
+rdna	RunB_G03	2616
 rdna	RunB_G04	4184
 rdna	RunB_G05	2522
 rdna	RunB_G06	2449

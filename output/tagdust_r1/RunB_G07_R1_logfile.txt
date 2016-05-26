@@ -1,0 +1,20 @@
+[2016-05-25 15:54:05]	Tagdust 2.13, Copyright (C) 2013 Timo Lassmann <timolassmann@gmail.com>
+[2016-05-25 15:54:05]	cmd: tagdust -t8 -o output/tagdust_r1/RunB_G07_R1 -1 F:NNNNNNNN -2 S:TATAGGG -3 R:N ./150519_M00528_0125_000000000-ACUAB-links/RunB_G07_R1.fastq.gz 
+[2016-05-25 15:54:05]	Start Run
+--------------------------------------------------
+[2016-05-25 15:54:05]	Running in single end mode.
+[2016-05-25 15:54:12]	Long sequence found. Need to realloc model...
+[2016-05-25 15:54:24]	Selected Threshold:: 1.499084
+[2016-05-25 15:54:26]	Done.
+
+[2016-05-25 15:54:26]	./150519_M00528_0125_000000000-ACUAB-links/RunB_G07_R1.fastq.gz	Input file name.
+[2016-05-25 15:54:26]	68484	total input reads
+[2016-05-25 15:54:26]	1.50	selected threshold
+[2016-05-25 15:54:26]	47075	successfully extracted
+[2016-05-25 15:54:26]	68.7%	extracted
+[2016-05-25 15:54:26]	20077	problems with architecture
+[2016-05-25 15:54:26]	1331	barcode / UMI not found
+[2016-05-25 15:54:26]	0	too short
+[2016-05-25 15:54:26]	1	low complexity
+[2016-05-25 15:54:26]	0	match artifacts:
+

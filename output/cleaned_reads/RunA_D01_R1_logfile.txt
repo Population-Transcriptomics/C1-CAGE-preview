@@ -1,0 +1,81 @@
+[2016-05-25 13:28:23]	Tagdust 2.13, Copyright (C) 2013 Timo Lassmann <timolassmann@gmail.com>
+[2016-05-25 13:28:23]	cmd: tagdust -arch SimpleArchitecture.txt -ref ercc_and_human_rRNA_and_tagdust.fa -o output/cleaned_reads/RunA_D01_R1 output/extracted_r1/RunA_D01_R1.fq output/extracted_r2/RunA_D01_R1.fq 
+[2016-05-25 13:28:23]	Start Run
+--------------------------------------------------
+[2016-05-25 13:28:23]	Running in paired end mode.
+[2016-05-25 13:28:23]	Looking at file:output/extracted_r1/RunA_D01_R1.fq
+[2016-05-25 13:28:23]	Searching for best architecture in file 'SimpleArchitecture.txt'
+[2016-05-25 13:28:23]	Using: -1 R:N 
+[2016-05-25 13:28:23]	Confidence: 1.00
+[2016-05-25 13:28:23]	Looking at file:output/extracted_r2/RunA_D01_R1.fq
+[2016-05-25 13:28:23]	Searching for best architecture in file 'SimpleArchitecture.txt'
+[2016-05-25 13:28:23]	Using: -1 R:N 
+[2016-05-25 13:28:23]	Confidence: 1.00
+[2016-05-25 13:28:23]	Determining threshold for read1.
+[2016-05-25 13:28:27]	Long sequence found. Need to realloc model...
+[2016-05-25 13:28:28]	Selected Threshold:: 3.106889
+[2016-05-25 13:28:28]	Determining threshold for read2.
+[2016-05-25 13:28:31]	Long sequence found. Need to realloc model...
+[2016-05-25 13:28:32]	Selected Threshold:: 3.115788
+[2016-05-25 13:28:32]	Detected casava 1.8 format.
+[2016-05-25 13:28:40]	Done.
+
+[2016-05-25 13:28:40]	output/extracted_r1/RunA_D01_R1.fq	Input file name 1.
+[2016-05-25 13:28:40]	output/extracted_r2/RunA_D01_R1.fq	Input file name 2.
+[2016-05-25 13:28:40]	54060	total input reads
+[2016-05-25 13:28:40]	3.12	selected threshold
+[2016-05-25 13:28:40]	8334	successfully extracted
+[2016-05-25 13:28:40]	15.4%	extracted
+[2016-05-25 13:28:40]	0	problems with architecture
+[2016-05-25 13:28:40]	0	barcode / UMI not found
+[2016-05-25 13:28:40]	0	too short
+[2016-05-25 13:28:40]	0	low complexity
+[2016-05-25 13:28:40]	45726	match artifacts:
+[2016-05-25 13:28:40]	4799	ERCC-00002
+[2016-05-25 13:28:40]	379	ERCC-00003
+[2016-05-25 13:28:40]	464	ERCC-00004
+[2016-05-25 13:28:40]	210	ERCC-00009
+[2016-05-25 13:28:40]	3	ERCC-00014
+[2016-05-25 13:28:40]	7	ERCC-00019
+[2016-05-25 13:28:40]	230	ERCC-00022
+[2016-05-25 13:28:40]	40	ERCC-00025
+[2016-05-25 13:28:40]	311	ERCC-00035
+[2016-05-25 13:28:40]	40	ERCC-00042
+[2016-05-25 13:28:40]	91	ERCC-00043
+[2016-05-25 13:28:40]	1580	ERCC-00044
+[2016-05-25 13:28:40]	335	ERCC-00046
+[2016-05-25 13:28:40]	5	ERCC-00053
+[2016-05-25 13:28:40]	8	ERCC-00060
+[2016-05-25 13:28:40]	25	ERCC-00062
+[2016-05-25 13:28:40]	7733	ERCC-00074
+[2016-05-25 13:28:40]	14	ERCC-00076
+[2016-05-25 13:28:40]	64	ERCC-00078
+[2016-05-25 13:28:40]	65	ERCC-00079
+[2016-05-25 13:28:40]	1470	ERCC-00092
+[2016-05-25 13:28:40]	11	ERCC-00095
+[2016-05-25 13:28:40]	8142	ERCC-00096
+[2016-05-25 13:28:40]	34	ERCC-00099
+[2016-05-25 13:28:40]	841	ERCC-00108
+[2016-05-25 13:28:40]	192	ERCC-00111
+[2016-05-25 13:28:40]	121	ERCC-00112
+[2016-05-25 13:28:40]	1392	ERCC-00113
+[2016-05-25 13:28:40]	504	ERCC-00116
+[2016-05-25 13:28:40]	12853	ERCC-00130
+[2016-05-25 13:28:40]	25	ERCC-00131
+[2016-05-25 13:28:40]	419	ERCC-00136
+[2016-05-25 13:28:40]	10	ERCC-00144
+[2016-05-25 13:28:40]	248	ERCC-00145
+[2016-05-25 13:28:40]	8	ERCC-00157
+[2016-05-25 13:28:40]	17	ERCC-00160
+[2016-05-25 13:28:40]	10	ERCC-00162
+[2016-05-25 13:28:40]	24	ERCC-00165
+[2016-05-25 13:28:40]	9	ERCC-00170
+[2016-05-25 13:28:40]	2642	ERCC-00171
+[2016-05-25 13:28:40]	32	080418_Consensus_Vector_Sequence_NIST_SEQUENCING_ASSEMBLY_noRestrict_rev
+[2016-05-25 13:28:40]	68	gi|555853|gb|U13369.1|HSU13369_Human_ribosomal_DNA_complete_repeating_unit
+[2016-05-25 13:28:40]	48	Nextera_501
+[2016-05-25 13:28:40]	185	Nextera_701
+[2016-05-25 13:28:40]	1	Nextera_712
+[2016-05-25 13:28:40]	6	Nextera_501_Reversed:
+[2016-05-25 13:28:40]	11	Nextera_701_Reversed:
+
