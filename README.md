@@ -30,11 +30,11 @@ _June 2016_: [Revision B of the C1 CAGE script on Script
 Hub](https://www.fluidigm.com/c1openapp/scripthub/script/2015-07/c1-cage-1436761405138-3)
 was released (see below).
 
+_May 2016_: Updated to new syntax of `samtools sort`.  Will not work with versions
+lower than `1.3`.
+
 _March 2016_: the reference sequence of the ERCC spikes has been corrected,
 see <https://www.biostars.org/p/170234/> for details.  Following that
 correction, we detect more spikes in our libraries, and therefore we adjusted
 our recommended dillution for the RT mixture from 1/200 to 1/20,000.  An update
 on [Script Hub](https://www.fluidigm.com/c1openapp/scripthub) will follow.
-
-_May 2016_: Updated to new syntax of `samtools sort`.  Will not work with versions
-lower than `1.3`.
