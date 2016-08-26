@@ -26,6 +26,10 @@ visualised as a quantitative [expression track][].  Here is a [default view][] w
 
 ### Updates:
 
+_June 2016_: [Revision B of the C1 CAGE script on Script
+Hub](https://www.fluidigm.com/c1openapp/scripthub/script/2015-07/c1-cage-1436761405138-3)
+was released (see below).
+
 _March 2016_: the reference sequence of the ERCC spikes has been corrected,
 see <https://www.biostars.org/p/170234/> for details.  Following that
 correction, we detect more spikes in our libraries, and therefore we adjusted
