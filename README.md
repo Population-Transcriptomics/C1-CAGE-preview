@@ -26,6 +26,8 @@ visualised as a quantitative [expression track][].  Here is a [default view][] w
 
 ### Updates:
 
+_January 2019_: Our manuscript is published in [Nature communications (Kouno and coll., 2019)](https://www.ncbi.nlm.nih.gov/pubmed/30664627).
+
 _June 2016_: [Revision B of the C1 CAGE script on Script
 Hub](https://www.fluidigm.com/c1openapp/scripthub/script/2015-07/c1-cage-1436761405138-3)
 was released (see below).
